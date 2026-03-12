@@ -1,0 +1,16 @@
+name: Python tests
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install pytest
+      - run: |
+          echo "def add(a, b): return a + b" > app.py
+          echo "from app import add" > test_app.py
+          echo "def test_add(): assert add(2, 3) == 5" >> test_app.py
+          pytest -q
